@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+    <property name="maxsize" value="30MB" />
+
+    <property name="maxdays" value="90" />
+
+    <springProperty scope="context" name="logdir" source="resources.logdir"/>
+
+    <springProperty scope="context" name="appname" source="resources.appname"/>
+
+    <springProperty scope="context" name="basepackage" source="resources.basepackage"/>
+
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>
+                <pattern>%d{HH:mm:ss.SSS} [%-5level] %logger{36} - %msg%n</pattern>
+            </pattern>
+        </layout>
+    </appender>
+
+    <appender name="fileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <File>${logdir}/${appname}.log</File>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+
+            <FileNamePattern>${logdir}/${appname}.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <maxHistory>${maxdays}</maxHistory>
+            <totalSizeCap>${maxsize}</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{HH:mm:ss.SSS} [%-5level] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <springProfile name="dev">
+        <root level="INFO">
+            <appender-ref ref="consoleLog"/>
+        </root>
+
+        <logger name="${basepackage}" level="DEBUG" additivity="false">
+            <appender-ref ref="consoleLog"/>
+        </logger>
+    </springProfile>
+
+
+    <springProfile name="test">
+        <root level="WARN">
+            <appender-ref ref="consoleLog"/>
+            <appender-ref ref="fileLog"/>
+        </root>
+        <logger name="${basepackage}" level="INFO" additivity="false">
+            <appender-ref ref="consoleLog"/>
+            <appender-ref ref="fileLog"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="prod">
+        <root level="ERROR">
+            <appender-ref ref="consoleLog"/>
+            <appender-ref ref="fileLog"/>
+        </root>
+    </springProfile>
+</configuration>
