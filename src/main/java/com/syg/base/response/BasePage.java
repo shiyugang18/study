@@ -1,4 +1,4 @@
-package com.syg.common;
+package com.syg.base.response;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.util.CollectionUtils;

@@ -2,7 +2,7 @@ package com.syg.exception;
 
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.syg.common.ResponseInfo;
+import com.syg.base.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.FieldError;
@@ -25,14 +25,14 @@ public class ApiExceptionHandler {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @ExceptionHandler(value = Exception.class)
-    public ResponseInfo<Object> handle(Exception exp) {
+    public Response<Object> handle(Exception exp) {
         log.info("异常：{}", exp.toString());
         if (exp.getCause() instanceof InvalidFormatException) {
             InvalidFormatException ex = (InvalidFormatException) exp.getCause();
             InvalidResult invalidArgument = new InvalidResult();
             invalidArgument.setField(ex.getPath().toString());
             invalidArgument.setValue(ex.getValue());
-            return new ResponseInfo<>("9995", "参数不正确", invalidArgument);
+            return new Response<>("9995", "参数不正确", invalidArgument);
         } else if (exp instanceof BusinessException) {
             BusinessException ex = (BusinessException) exp;
             return ex.getResponse();
@@ -40,26 +40,26 @@ public class ApiExceptionHandler {
             BusinessException ex = (BusinessException) exp.getCause();
             return ex.getResponse();
         } else if (exp.getCause() instanceof SQLIntegrityConstraintViolationException) {
-            return new ResponseInfo<>("9991", "数据重复或异常", "数据重复或异常");
+            return new Response<>("9991", "数据重复或异常", "数据重复或异常");
         } else {
             log.error("未知异常", exp);
-            return ResponseInfo.error(null);
+            return Response.error(null);
         }
     }
 
 
     @ExceptionHandler(value = MethodArgumentTypeMismatchException.class)
-    public ResponseInfo<String> argumentMismatchHandler(MethodArgumentTypeMismatchException exp) {
-        return new ResponseInfo<>("9996", "参数类型不匹配", exp.getName());
+    public Response<String> argumentMismatchHandler(MethodArgumentTypeMismatchException exp) {
+        return new Response<>("9996", "参数类型不匹配", exp.getName());
     }
 
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
-    public ResponseInfo<String> argumentMissHandler(MissingServletRequestParameterException exp) {
-        return new ResponseInfo<>("9997", "参数不能为空", exp.getParameterName());
+    public Response<String> argumentMissHandler(MissingServletRequestParameterException exp) {
+        return new Response<>("9997", "参数不能为空", exp.getParameterName());
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResponseInfo<List<InvalidResult>> argumentInvalidHandler(MethodArgumentNotValidException exp) {
+    public Response<List<InvalidResult>> argumentInvalidHandler(MethodArgumentNotValidException exp) {
         List<InvalidResult> invalidArguments = new ArrayList<>();
         for (FieldError error : exp.getBindingResult().getFieldErrors()) {
             InvalidResult invalidArgument = new InvalidResult();
@@ -68,7 +68,7 @@ public class ApiExceptionHandler {
             invalidArgument.setValue(error.getRejectedValue());
             invalidArguments.add(invalidArgument);
         }
-        return new ResponseInfo<>("9998", "参数格式不正确", invalidArguments);
+        return new Response<>("9998", "参数格式不正确", invalidArguments);
     }
 
 

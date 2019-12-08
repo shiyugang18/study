@@ -3,8 +3,9 @@ package com.syg.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
@@ -15,30 +16,35 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Configuration
 public class SwaggerConfig {
 
-    private final String version = "1.0";
 
-    private final String title = "SpringBoot示例工程";
-
-    private final String description = "API文档自动生成示例";
-
-    private final String termsOfServiceUrl = "http://www.kingeid.com";
-
-    private final String license = "MIT";
-
-    private final String licenseUrl = "https://mit-license.org/";
-
-    private final Contact contact = new Contact("calebman", "https://github.com/calebman", "chenjianhui0428@gmail.com");
-
+    /**
+     * 通过 createRestApi函数来构建一个DocketBean
+     * 函数名,可以随意命名,喜欢什么命名就什么命名
+     */
     @Bean
-    public Docket buildDocket() {
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(buildApiInf())
-                .select().build();
+    public Docket createRestApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                //调用apiInfo方法,创建一个ApiInfo实例,里面是展示在文档页面信息内容
+                .select()
+                //控制暴露出去的路径下的实例
+                //如果某个接口不想暴露,可以使用以下注解
+                //这样,该接口就不会暴露在 swagger2 的页面下
+                .apis(RequestHandlerSelectors.basePackage("com.suke.czx.modules.app"))
+                .paths(PathSelectors.any())
+                .build();
     }
-
-    private ApiInfo buildApiInf() {
-        return new ApiInfoBuilder().title(title).termsOfServiceUrl(termsOfServiceUrl).description(description)
-                .version(version).license(license).licenseUrl(licenseUrl).contact(contact).build();
-
+    //构建 api文档的详细信息函数
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                //页面标题
+                .title("SpringBoot API")
+                //创建人
+                .contact("shiyugang")
+                //版本号
+                .version("1.0")
+                //描述
+                .description("API 描述")
+                .build();
     }
-
 }

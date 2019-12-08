@@ -34,6 +34,9 @@ spring:
   profiles:
     # 默认使用开发环境
     active: dev
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 mybatis:
   # mapper.xml包地址
   mapper-locations: classpath:mapper/*.xml
@@ -55,6 +58,3 @@ resources:
 
 
 #jwt配置
-jwt:
-  expiredTime: 600000
-  key: jwtkey

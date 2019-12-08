@@ -24,7 +24,7 @@ public class DruidConfiguration {
         // IP黑名单 (存在共同时，deny优先于allow)
         servletRegistrationBean.addInitParameter("deny", "127.0.0.2");
         // 设置登录的用户名和密码
-        servletRegistrationBean.addInitParameter("loginUsername", "pancm");
+        servletRegistrationBean.addInitParameter("loginUsername", "admin");
         servletRegistrationBean.addInitParameter("loginPassword", "123456");
         // 是否能够重置数据.
         servletRegistrationBean.addInitParameter("resetEnable", "false");

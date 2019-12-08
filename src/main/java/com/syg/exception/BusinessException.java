@@ -1,7 +1,7 @@
 package com.syg.exception;
 
 
-import com.syg.common.ResponseInfo;
+import com.syg.base.response.Response;
 
 public class BusinessException extends RuntimeException {
     private static final long serialVersionUID = -778142600038732285L;
@@ -9,7 +9,7 @@ public class BusinessException extends RuntimeException {
     private String code;
 
     public BusinessException(String message) {
-        this(ResponseInfo.CODE_ERROR_BUSINESS, message);
+        this(Response.CODE_ERROR_BUSINESS, message);
     }
 
     public BusinessException(String code, String message) {
@@ -35,7 +35,7 @@ public class BusinessException extends RuntimeException {
         return code;
     }
 
-    public ResponseInfo<Object> getResponse() {
-        return ResponseInfo.error(code, message, null);
+    public Response<Object> getResponse() {
+        return Response.error(code, message, null);
     }
 }
