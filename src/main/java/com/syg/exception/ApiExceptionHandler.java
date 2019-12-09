@@ -3,7 +3,7 @@ package com.syg.exception;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.syg.common.response.Result;
-import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.FieldError;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +43,7 @@ public class ApiExceptionHandler {
             return new Result(false,9991, "数据重复或异常", "数据重复或异常");
         } else {
             log.error("未知异常", exp);
-            return Result.error(null);
+            return Result.error("未知异常");
         }
     }
 
@@ -73,7 +72,10 @@ public class ApiExceptionHandler {
     }
 
     /*=========== Shiro 异常拦截==============*/
-
+    @ExceptionHandler(value = AuthenticationException.class)
+    public Result authenticationException(AuthenticationException exp) {
+        return new Result(false,9999, "token无效", exp.getMessage());
+    }
 
 
     private class InvalidResult {

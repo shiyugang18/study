@@ -31,7 +31,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     }
 
     /**
-     *
+     * 校验用户
      */
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {

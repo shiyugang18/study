@@ -241,7 +241,7 @@ public class CommonUtils {
     public static Map<String, Object> idListEx(Map<String, Object> parameterMap, String key, String val) {
         String id = ValidateUtil.paramIsEmpty("id", parameterMap);
         if (StringUtils.isEmpty(id)) {
-            throw new BusinessException("4041", "参数不能为空，请选择数据");
+            throw new BusinessException(4041, "参数不能为空，请选择数据");
         }
         Map<String, Object> paramMap = new HashMap<>();
         List<String> produceIds = Arrays.asList(id.split(","));
@@ -276,40 +276,11 @@ public class CommonUtils {
 
     public static Map<String, Object> toMap(Object value) {
         if (value == null) {
-            throw new BusinessException("4561", "数据不能为空");
+            throw new BusinessException(4561, "数据不能为空");
         }
         return toMap("id", value);
     }
 
-    public static Map<String, Object> manageSchool(Map<String, Object> query) {
-        if (query == null) {
-            query = new HashMap<>();
-        }
-        String key = "schoolId";
-        String schoolId = ValidateUtil.paramIsEmpty(key, query);
-        if (StringUtils.isEmpty(schoolId)) {
-            String currentSchoolId = TokenUtil.getCurrentSchoolId();
-            if (!StringUtils.isEmpty(currentSchoolId)) {
-                query.put(key, currentSchoolId);
-            }
-        }
-        return query;
-    }
-
-    public static Map<String, Object> manageUserId(Map<String, Object> query) {
-        if (query == null) {
-            query = new HashMap<>();
-        }
-        String key = "userId";
-        String userId = ValidateUtil.paramIsEmpty(key, query);
-        if (StringUtils.isEmpty(userId)) {
-            String currentUserId = TokenUtil.getCurrentUserId();
-            if (!StringUtils.isEmpty(currentUserId)) {
-                query.put(key, currentUserId);
-            }
-        }
-        return query;
-    }
 
     public static boolean intOne(Integer i) {
         if (i == null) {
