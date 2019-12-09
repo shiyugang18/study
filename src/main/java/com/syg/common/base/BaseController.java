@@ -1,4 +1,4 @@
-package com.syg.base.controller;
+package com.syg.common.base;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 

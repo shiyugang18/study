@@ -1,4 +1,4 @@
-package com.syg.base.dao;
+package com.syg.common.base;
 
 import java.util.List;
 

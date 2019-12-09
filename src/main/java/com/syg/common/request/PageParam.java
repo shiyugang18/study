@@ -1,4 +1,4 @@
-package com.syg.base.request;
+package com.syg.common.request;
 
 
 import lombok.Data;

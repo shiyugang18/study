@@ -1,11 +1,11 @@
-package com.syg.base.result;
+package com.syg.constants;
 
 /**
  * <p>
  * REST API 响应码
  * </p>
  *
- * @author geekidea
+ * @author shiyugang
  * @since 2018-11-08
  */
 public enum CodeMsg {
@@ -45,10 +45,7 @@ public enum CodeMsg {
 
     UNAUTHENTICATED_EXCEPTION(5105, "没有访问权限"),
 
-    UNAUTHORIZED_EXCEPTION(5106, "没有访问权限"),
-
-
-    ;
+    UNAUTHORIZED_EXCEPTION(5106, "没有访问权限");
 
     private final int code;
     private final String msg;

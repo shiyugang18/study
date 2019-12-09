@@ -1,4 +1,4 @@
-package com.syg.base.service;
+package com.syg.common.base;
 
 import java.util.List;
 

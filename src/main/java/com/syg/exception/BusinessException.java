@@ -1,29 +1,31 @@
 package com.syg.exception;
 
 
-import com.syg.base.response.Response;
+import com.syg.common.response.Result;
 
 public class BusinessException extends RuntimeException {
     private static final long serialVersionUID = -778142600038732285L;
+
+    private Integer code;
     private String message;
-    private String code;
+
 
     public BusinessException(String message) {
-        this(Response.CODE_ERROR_BUSINESS, message);
+        this(Result.CODE_ERROR_BUSINESS, message);
     }
 
-    public BusinessException(String code, String message) {
+    public BusinessException(Integer code, String message) {
         this.code = code;
         this.message = message;
 
     }
 
     public static BusinessException authException() {
-        return new BusinessException("401", "访问被拒绝");
+        return new BusinessException(401, "访问被拒绝");
     }
 
     public static BusinessException tokenException() {
-        return new BusinessException("403", "token失效或已过期");
+        return new BusinessException(403, "token失效或已过期");
     }
 
     @Override
@@ -31,11 +33,11 @@ public class BusinessException extends RuntimeException {
         return message;
     }
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public Response<Object> getResponse() {
-        return Response.error(code, message, null);
+    public Result getResponse() {
+        return Result.errorMsg(code, message);
     }
 }
