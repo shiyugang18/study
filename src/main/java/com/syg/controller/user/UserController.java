@@ -1,4 +1,4 @@
-package com.syg.controller;
+package com.syg.controller.user;
 
 import com.syg.domain.pojo.SystemUser;
 import org.apache.shiro.SecurityUtils;
